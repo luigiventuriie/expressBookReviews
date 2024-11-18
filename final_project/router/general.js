@@ -78,16 +78,23 @@ public_users.get('/author/:author',async function (req, res) {
 
 
 // Get all books based on title
+// public_users.get('/title/:title',function (req, res) {
+//     const title = req.params.title;
+//     const filtered = []
+//     Object.keys(books).forEach(key=>{
+//         if(books[key].title === title){
+//             filtered.push(books[key])
+//         }
+//     })
+
+//     res.send(filtered);
+// });
 public_users.get('/title/:title',function (req, res) {
     const title = req.params.title;
-    const filtered = []
-    Object.keys(books).forEach(key=>{
-        if(books[key].title === title){
-            filtered.push(books[key])
-        }
-    })
-
-    res.send(filtered);
+    getBooksWithPromise()
+    .then((books)=>Object.values(books)
+    .filter(book=> {return book.title === title}))
+    .then((filtered)=> res.send(filtered))
 });
 
 
